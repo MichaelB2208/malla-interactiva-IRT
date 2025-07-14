@@ -31,18 +31,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 const materiaDiv = document.createElement('div');
                 materiaDiv.classList.add('materia');
                 materiaDiv.dataset.id = materia.id;
-                materiaDiv.style.setProperty('--semestre', materia.semestre); // Establecer la variable CSS
+                materiaDiv.style.setProperty('--semestre', materia.semestre); // Establecer la variable CSS para colores dinámicos
 
-                // Marcar como completada si ya lo está
+                // Verificar disponibilidad y aplicar clases
+                const disponible = verificarDisponibilidad(materia);
+
                 if (materia.completada) {
                     materiaDiv.classList.add('completada');
-                }
-
-                // Verificar disponibilidad (prerrequisitos y correquisitos)
-                const disponible = verificarDisponibilidad(materia);
-                if (!disponible && !materia.completada) { // Si no está disponible y no ha sido completada
+                } else if (!disponible) {
                     materiaDiv.classList.add('no-disponible');
                 }
+                // Si está disponible y no completada, no se añade ninguna clase especial (usa el color base)
+
 
                 // Contenido de la materia
                 materiaDiv.innerHTML = `
@@ -56,15 +56,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 // Evento click para marcar/desmarcar
                 materiaDiv.addEventListener('click', () => {
-                    // Si la materia no está disponible y no está completada, alertar
+                    // Si la materia no está disponible y no está completada, no permitir marcar
                     if (materiaDiv.classList.contains('no-disponible') && !materia.completada) {
-                        alert('¡No puedes cursar esta materia! Primero completa sus prerrequisitos y correquisitos.');
-                        return;
+                        alert('¡Debes completar los prerrequisitos y correquisitos antes de cursar esta materia!');
+                        return; // Salir de la función sin hacer cambios
                     }
 
                     materia.completada = !materia.completada; // Cambia el estado
                     guardarProgreso(); // Guarda el progreso en localStorage
-                    renderizarMalla(); // Vuelve a dibujar para actualizar colores/estados
+                    renderizarMalla(); // Vuelve a dibujar para actualizar colores/estados de todas las materias
                 });
 
                 materiasGridDiv.appendChild(materiaDiv);
@@ -75,14 +75,16 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Función auxiliar para generar el HTML del tooltip
+    // Función auxiliar para generar el HTML del tooltip de prerrequisitos/correquisitos
     function getPrerequisitosCorrequisitosHtml(materia) {
         let html = '';
         if (materia.prerequisitos && materia.prerequisitos.length > 0) {
-            html += `<p>Prerrequisitos: ${materia.prerequisitos.map(pId => getNombreMateria(pId)).join(', ')}</p>`;
+            const prerequisitosNombres = materia.prerequisitos.map(pId => getNombreMateria(pId));
+            html += `<p>Prerrequisitos: ${prerequisitosNombres.join(', ')}</p>`;
         }
         if (materia.correquisitos && materia.correquisitos.length > 0) {
-            html += `<p>Correquisitos: ${materia.correquisitos.map(cId => getNombreMateria(cId)).join(', ')}</p>`;
+            const correquisitosNombres = materia.correquisitos.map(cId => getNombreMateria(cId));
+            html += `<p>Correquisitos: ${correquisitosNombres.join(', ')}</p>`;
         }
         if (html === '') {
             html = 'No tiene prerrequisitos ni correquisitos.';
@@ -91,12 +93,18 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 
-    // Función para verificar si una materia se puede cursar
+    // Función para verificar si una materia se puede cursar (todos los prerrequisitos están completados)
     function verificarDisponibilidad(materia) {
+        // Una materia ya completada se considera disponible para "desmarcar"
+        if (materia.completada) {
+            return true;
+        }
+
         // Verificar prerrequisitos
         if (materia.prerequisitos && materia.prerequisitos.length > 0) {
             const todosPrereqCompletados = materia.prerequisitos.every(prereqId => {
                 const prereqMateria = materias.find(m => m.id === prereqId);
+                // Si el prerrequisito no existe o no está completado, la materia no está disponible
                 return prereqMateria && prereqMateria.completada;
             });
             if (!todosPrereqCompletados) {
@@ -104,19 +112,17 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-        // Para correquisitos, la lógica es más compleja y depende de si deben cursarse simultáneamente o ya completados.
-        // En este modelo, si los prerrequisitos se cumplen, la materia se considera "disponible" para poder seleccionarla.
-        // Los correquisitos son más informativos o para validación al momento de "inscribirse" en un sistema real,
-        // no tanto para bloquear la visualización en una malla interactiva simple como esta.
-        // Si necesitas una lógica de bloqueo estricta para correquisitos, házmelo saber.
-        return true; // Si no tiene prerrequisitos que bloqueen, o si los tiene y están completados
+        // Verificar correquisitos: Para simplificar, asumimos que los correquisitos no bloquean la *visibilidad*
+        // sino la acción de "cursar". Pero podemos ajustarlo si necesitas que también bloqueen la disponibilidad visual.
+        // Si no tiene prerrequisitos que bloqueen, o si los tiene y están completados, la materia está disponible
+        return true;
     }
 
 
     // Obtener el nombre de una materia por su ID
     function getNombreMateria(id) {
         const materia = materias.find(m => m.id === id);
-        return materia ? materia.nombre : 'Materia Desconocida';
+        return materia ? materia.nombre : `Materia ID: ${id} (Desconocida)`;
     }
 
     // Guardar el progreso en el localStorage del navegador
@@ -131,6 +137,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const progreso = JSON.parse(progresoGuardado);
             materias = materias.map(materia => {
                 const estado = progreso.find(p => p.id === materia.id);
+                // Si no se encuentra un estado guardado, por defecto es false (no completada)
                 return { ...materia, completada: estado ? estado.completada : false };
             });
         }
@@ -138,11 +145,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Cargar datos de las materias y progreso al iniciar
     fetch('data/pensum.json')
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        })
         .then(data => {
             materias = data;
             cargarProgreso(); // Cargar el progreso guardado
-            renderizarMalla();
+            renderizarMalla(); // Dibujar la malla inicial
         })
         .catch(error => console.error('Error cargando el pensum:', error));
 });
