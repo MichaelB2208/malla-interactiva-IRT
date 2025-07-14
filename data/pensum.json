@@ -193,7 +193,7 @@
     "nombre": "Laboratorio Electrónica Básica",
     "creditos": 1,
     "semestre": 3,
-    "prerequisitos": ["FIS-1111"],
+    "prerequisitos": ["TEC-212"],
     "correquisitos": ["TEC-211"],
     "completada": false
   },
