@@ -4,15 +4,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function renderizarMalla() {
     mallaCurricularContainer.innerHTML = '';
-
     const materiasPorCuatrimestre = {};
+
     materias.forEach(materia => {
-      if (materia.semestre <= 2) { // Solo mostrar hasta el 2do cuatrimestre
-        if (!materiasPorCuatrimestre[materia.semestre]) {
-          materiasPorCuatrimestre[materia.semestre] = [];
-        }
-        materiasPorCuatrimestre[materia.semestre].push(materia);
+      if (!materiasPorCuatrimestre[materia.semestre]) {
+        materiasPorCuatrimestre[materia.semestre] = [];
       }
+      materiasPorCuatrimestre[materia.semestre].push(materia);
     });
 
     const cuatrimestresOrdenados = Object.keys(materiasPorCuatrimestre).sort((a, b) => a - b);
@@ -43,13 +41,13 @@ document.addEventListener('DOMContentLoaded', () => {
           <p>Créditos: ${materia.creditos}</p>
           <p class="semestre">Cuatrimestre ${materia.semestre}</p>
           <div class="prerequisitos-tooltip">
-            ${getPrerequisitosCorrequisitosHtml(materia)}
+            ${getRequisitosHtml(materia)}
           </div>
         `;
 
         materiaDiv.addEventListener('click', () => {
           if (materiaDiv.classList.contains('no-disponible') && !materia.completada) {
-            alert('¡Debes completar los prerrequisitos y correquisitos antes de cursar esta materia!');
+            alert('Debes completar los prerrequisitos y correquisitos antes.');
             return;
           }
 
@@ -66,33 +64,44 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  function getPrerequisitosCorrequisitosHtml(materia) {
-    let html = '';
-    if (materia.prerequisitos && materia.prerequisitos.length > 0) {
-      const nombres = materia.prerequisitos.map(getNombreMateria);
-      html += `<p>Prerrequisitos: ${nombres.join(', ')}</p>`;
-    }
-    if (materia.correquisitos && materia.correquisitos.length > 0) {
-      const nombres = materia.correquisitos.map(getNombreMateria);
-      html += `<p>Correquisitos: ${nombres.join(', ')}</p>`;
-    }
-    return html || 'No tiene prerrequisitos ni correquisitos.';
-  }
-
   function verificarDisponibilidad(materia) {
     if (materia.completada) return true;
 
-    if (materia.prerequisitos?.some(prereqId => {
-      const prereq = materias.find(m => m.id === prereqId);
-      return !prereq || !prereq.completada;
-    })) return false;
+    if (materia.prerequisitos && materia.prerequisitos.length > 0) {
+      const todosCompletados = materia.prerequisitos.every(id => {
+        const m = materias.find(mat => mat.id === id);
+        return m && m.completada;
+      });
+      if (!todosCompletados) return false;
+    }
+
+    if (materia.correquisitos && materia.correquisitos.length > 0) {
+      const todosValidos = materia.correquisitos.every(id => {
+        const m = materias.find(mat => mat.id === id);
+        return m && (m.completada || m.semestre <= materia.semestre);
+      });
+      if (!todosValidos) return false;
+    }
 
     return true;
   }
 
+  function getRequisitosHtml(materia) {
+    let html = '';
+    if (materia.prerequisitos?.length > 0) {
+      const nombres = materia.prerequisitos.map(id => getNombreMateria(id));
+      html += `<p>Prerrequisitos: ${nombres.join(', ')}</p>`;
+    }
+    if (materia.correquisitos?.length > 0) {
+      const nombres = materia.correquisitos.map(id => getNombreMateria(id));
+      html += `<p>Correquisitos: ${nombres.join(', ')}</p>`;
+    }
+    return html || 'Sin requisitos';
+  }
+
   function getNombreMateria(id) {
-    const materia = materias.find(m => m.id === id);
-    return materia ? materia.nombre : `ID desconocido: ${id}`;
+    const m = materias.find(m => m.id === id);
+    return m ? m.nombre : `ID: ${id}`;
   }
 
   function guardarProgreso() {
@@ -103,23 +112,19 @@ document.addEventListener('DOMContentLoaded', () => {
   function cargarProgreso() {
     const guardado = localStorage.getItem('mallaProgreso');
     if (!guardado) return;
-
     const progreso = JSON.parse(guardado);
     materias = materias.map(m => {
-      const estado = progreso.find(p => p.id === m.id);
-      return { ...m, completada: estado ? estado.completada : false };
+      const p = progreso.find(pm => pm.id === m.id);
+      return { ...m, completada: p ? p.completada : false };
     });
   }
 
   fetch('data/pensum.json')
-    .then(resp => {
-      if (!resp.ok) throw new Error(`Error: ${resp.status}`);
-      return resp.json();
-    })
+    .then(res => res.json())
     .then(data => {
       materias = data;
       cargarProgreso();
       renderizarMalla();
     })
-    .catch(err => console.error('Error cargando pensum.json:', err));
+    .catch(err => console.error('Error al cargar pensum:', err));
 });
