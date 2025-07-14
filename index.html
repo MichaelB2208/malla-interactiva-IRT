@@ -9,7 +9,18 @@
 <body>
   <div class="contenedor">
     <h1>Malla Curricular - Ingeniería en Redes y Telecomunicaciones</h1>
-    <div id="malla-curricular"></div>
+
+    <div class="leyenda">
+      <h3>Leyenda de colores:</h3>
+      <ul>
+        <li><span class="cuadro completada"></span> Completada</li>
+        <li><span class="cuadro disponible"></span> Disponible</li>
+        <li><span class="cuadro no-disponible"></span> No disponible</li>
+      </ul>
+      <button id="reiniciar">Reiniciar progreso</button>
+    </div>
+
+    <div id="malla-curricular" class="malla-grid"></div>
   </div>
 
   <script src="js/script.js"></script>
