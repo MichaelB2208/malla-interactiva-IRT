@@ -1,258 +1,90 @@
-/* Reset básico */
-* {
-  box-sizing: border-box;
-}
-
-/* Body y Layout */
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  margin: 0;
-  padding: 0;
-  background: linear-gradient(135deg, #e0f7fa, #ffffff);
-  color: #2e3a59;
-  line-height: 1.6;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
+  font-family: Arial, sans-serif;
+  margin: 20px;
+  background-color: #f7f9fb;
+  color: #333;
 }
 
-header {
-  background-color: #344e86; /* Azul profundo */
-  color: #f0f4f8;
-  padding: 30px 15px;
+h1 {
   text-align: center;
-  box-shadow: 0 6px 12px rgba(52, 78, 134, 0.4);
-  user-select: none;
+  margin-bottom: 40px;
+  color: #003366;
 }
 
-header h1 {
-  margin: 0;
-  font-size: 3rem;
-  font-weight: 700;
-  letter-spacing: 1.2px;
-  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.25);
-}
-
-header p {
-  font-size: 1.3rem;
-  margin-top: 8px;
-  opacity: 0.85;
-  font-weight: 500;
-}
-
-/* Contenedor principal */
 #malla-curricular {
-  max-width: 1400px;
-  margin: 35px auto 60px auto;
-  padding: 25px 15px;
-  background-color: #ffffffcc; /* Blanco translúcido */
-  border-radius: 15px;
-  box-shadow: 0 8px 20px rgba(52, 78, 134, 0.15);
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   gap: 30px;
-  transition: background-color 0.5s ease;
 }
 
-/* Cada cuatrimestre */
 .cuatrimestre {
-  flex: 1 1 22%; /* 4 columnas flexibles */
-  min-width: 280px;
-  background: #f9fbff;
-  border-radius: 15px;
-  padding: 25px 20px 30px 20px;
-  box-shadow: 0 6px 15px rgba(52, 78, 134, 0.1);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
-  cursor: default;
-}
-
-.cuatrimestre:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 12px 24px rgba(52, 78, 134, 0.25);
+  background-color: #ffffff;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  width: 320px;
 }
 
 .cuatrimestre h2 {
-  font-size: 2.2rem;
-  color: #344e86;
-  margin: 0 0 28px 0;
-  font-weight: 700;
-  border-bottom: 3px solid #7ea6ff;
-  padding-bottom: 15px;
-  width: 100%;
   text-align: center;
-  user-select: none;
+  margin-bottom: 15px;
+  color: #0055a5;
 }
 
 .materias-grid {
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  width: 100%;
-  align-items: center;
+  gap: 12px;
 }
 
-/* Cada materia */
 .materia {
-  background: linear-gradient(135deg, #7ad9a3, #4bb77a);
-  border-radius: 14px;
-  padding: 18px 15px;
-  width: 100%;
-  min-height: 130px;
-  box-shadow: 0 4px 10px rgba(75, 183, 122, 0.45);
-  transition:
-    box-shadow 0.3s ease,
-    transform 0.3s ease,
-    background 0.5s ease;
-  color: #f3f9f2;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  position: relative;
+  border: 2px solid #cfd8dc;
+  border-left: 8px solid #90caf9;
+  background-color: #e3f2fd;
+  padding: 12px;
+  border-radius: 12px;
+  transition: transform 0.2s, box-shadow 0.2s;
   cursor: pointer;
-  user-select: none;
+  position: relative;
 }
 
 .materia:hover {
-  box-shadow: 0 12px 25px rgba(75, 183, 122, 0.8);
-  transform: translateY(-5px);
+  transform: scale(1.015);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .materia h3 {
-  font-size: 1.4rem;
-  margin: 0 0 8px 0;
-  line-height: 1.2;
-  font-weight: 700;
-  text-shadow: 0 1px 3px rgba(0,0,0,0.25);
+  margin: 0;
+  font-size: 1.1em;
+  color: #0d47a1;
 }
 
 .materia p {
-  font-size: 1rem;
-  margin: 3px 0;
-  font-weight: 500;
-  letter-spacing: 0.03em;
-  text-shadow: 0 1px 2px rgba(0,0,0,0.15);
+  margin: 4px 0;
+  font-size: 0.9em;
 }
 
-/* Estado completada */
+/* Colores según estado */
 .materia.completada {
-  background: linear-gradient(135deg, #5470f0, #2743d9);
-  box-shadow: 0 6px 18px rgba(39, 67, 217, 0.7);
-  color: #dbe5ff;
-  position: relative;
-  cursor: pointer;
+  background-color: #c8e6c9;
+  border-left-color: #43a047;
 }
 
-.materia.completada::after {
-  content: '✓ COMPLETADA';
-  position: absolute;
-  top: 10px;
-  right: 15px;
-  background: rgba(39, 67, 217, 0.8);
-  padding: 5px 12px;
-  border-radius: 30px;
-  font-weight: 700;
-  font-size: 0.85rem;
-  box-shadow: 0 2px 8px rgba(39, 67, 217, 0.7);
-  user-select: none;
-}
-
-/* Estado no disponible */
 .materia.no-disponible {
-  background: #cbd3db;
-  color: #7a818a;
-  box-shadow: none;
-  filter: grayscale(70%);
-  cursor: default;
-  opacity: 0.65;
-  transform: none !important;
+  background-color: #f8d7da;
+  border-left-color: #c62828;
+  opacity: 0.8;
+  cursor: not-allowed;
 }
 
-.materia.no-disponible:hover {
-  box-shadow: none;
-  transform: none;
-}
-
-/* Tooltip para prerrequisitos */
-.materia .prerequisitos-tooltip {
-  visibility: hidden;
-  opacity: 0;
-  width: 220px;
-  background-color: #34495e;
-  color: #fff;
-  text-align: center;
-  border-radius: 10px;
-  padding: 12px 16px;
-  position: absolute;
-  z-index: 20;
-  bottom: 110%;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 0.85rem;
-  box-shadow: 0 6px 15px rgba(0,0,0,0.3);
-  transition: opacity 0.3s ease, visibility 0.3s ease;
-  pointer-events: none;
-  user-select: none;
-  white-space: normal;
-}
-
-.materia .prerequisitos-tooltip::after {
-  content: "";
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  margin-left: -6px;
-  border-width: 6px;
-  border-style: solid;
-  border-color: #34495e transparent transparent transparent;
-}
-
-.materia:hover .prerequisitos-tooltip {
-  visibility: visible;
-  opacity: 1;
-}
-
-/* Footer */
-footer {
-  text-align: center;
-  padding: 30px 15px;
-  background-color: #344e86;
-  color: #f0f4f8;
-  font-size: 0.95rem;
-  font-weight: 500;
-  box-shadow: 0 -4px 10px rgba(52, 78, 134, 0.4);
-  user-select: none;
-}
-
-/* Responsive */
-@media (max-width: 1200px) {
-  .cuatrimestre {
-    flex: 1 1 30%;
-    min-width: 280px;
-  }
-}
-
-@media (max-width: 900px) {
-  .cuatrimestre {
-    flex: 1 1 45%;
-    min-width: 260px;
-  }
-}
-
-@media (max-width: 600px) {
-  #malla-curricular {
-    padding: 20px 10px;
-  }
-
-  .cuatrimestre {
-    flex: 1 1 90%;
-    min-width: auto;
-  }
-
-  .materia {
-    min-height: 140px;
-  }
+/* Tooltip de prerrequisitos/correquisitos */
+.prerequisitos-tooltip {
+  margin-top: 8px;
+  font-size: 0.8em;
+  background-color: #ffffff;
+  border: 1px dashed #90a4ae;
+  padding: 6px;
+  border-radius: 8px;
+  color: #333;
 }
