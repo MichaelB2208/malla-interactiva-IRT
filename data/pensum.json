@@ -36,7 +36,7 @@
     "completada": false
   },
   {
-    "id": "QUM-111",
+    "id": "QUM-1110",
     "nombre": "Química General",
     "creditos": 3,
     "semestre": 1,
@@ -50,7 +50,7 @@
     "creditos": 1,
     "semestre": 1,
     "prerequisitos": [],
-    "correquisitos": ["QUM-111"],
+    "correquisitos": ["QUM-1110"],
     "completada": false
   },
   {
