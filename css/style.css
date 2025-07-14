@@ -8,7 +8,7 @@ body {
 }
 
 header {
-    background-color: #2c3e50;
+    background-color: #2c3e50; /* Azul oscuro general */
     color: #fff;
     padding: 25px 0;
     text-align: center;
@@ -27,31 +27,31 @@ header p {
 }
 
 #malla-curricular {
-    max-width: 1400px; /* Ancho para acomodar más columnas */
+    max-width: 1400px;
     margin: 30px auto;
     padding: 20px;
     background-color: #fff;
     border-radius: 8px;
     box-shadow: 0 6px 12px rgba(0,0,0,0.08);
 
-    display: flex; /* Usar flexbox para las columnas de cuatrimestres */
-    flex-wrap: wrap; /* Permitir que los cuatrimestres se envuelvan si no caben */
-    justify-content: center; /* Centrar los cuatrimestres */
-    gap: 25px; /* Espacio entre las columnas de cuatrimestres */
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 25px;
 }
 
 .cuatrimestre {
-    flex: 0 0 calc(25% - 20px); /* Aproximadamente 4 columnas, ajustado por el gap */
-    min-width: 300px; /* Ancho mínimo para cada columna */
-    margin-bottom: 20px; /* Espacio entre filas de cuatrimestres si se envuelven */
+    flex: 0 0 calc(25% - 20px); /* 4 columnas */
+    min-width: 300px;
+    margin-bottom: 20px;
     padding: 20px;
     border: 1px solid #e0e0e0;
     border-radius: 8px;
     background-color: #fcfcfc;
     box-shadow: 0 2px 5px rgba(0,0,0,0.03);
     display: flex;
-    flex-direction: column; /* Materias dentro de la columna */
-    align-items: center; /* Centrar las materias dentro del cuatrimestre */
+    flex-direction: column;
+    align-items: center;
 }
 
 .cuatrimestre h2 {
@@ -62,23 +62,23 @@ header p {
     text-align: center;
     border-bottom: 2px solid #e0e0e0;
     padding-bottom: 15px;
-    width: 100%; /* Asegurar que el título ocupe todo el ancho */
+    width: 100%;
 }
 
 .materias-grid {
     display: flex;
-    flex-direction: column; /* Materias una debajo de la otra en la columna */
-    gap: 15px; /* Espacio entre las materias */
-    width: 100%; /* Ocupar todo el ancho disponible */
-    align-items: center; /* Centrar las materias */
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
+    align-items: center;
 }
 
 .materia {
-    border: 1px solid; /* El color del borde será dinámico */
+    border: 1px solid;
     border-radius: 8px;
     padding: 15px;
     text-align: center;
-    width: 200px; /* Ancho fijo para las materias */
+    width: 200px;
     min-height: 120px;
     box-shadow: 0 3px 6px rgba(0,0,0,0.08);
     transition: transform 0.2s ease, background-color 0.3s ease, box-shadow 0.2s ease, border-color 0.3s ease, opacity 0.3s;
@@ -87,15 +87,15 @@ header p {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    color: #fff; /* Color de texto blanco para materias base y completadas */
 
-    /* Colores base dinámicos usando HSL y variable CSS --semestre */
-    /* Verde claro a verde oscuro para base */
-    --base-hue: 130; /* Tono verde */
-    --base-lightness-start: 70%; /* Claridad inicial */
-    --base-lightness-end: 40%; /* Claridad final para cuatrimestres más avanzados */
-    background-color: hsl(var(--base-hue), 70%, calc(var(--base-lightness-start) - (var(--semestre) - 1) * ((var(--base-lightness-start) - var(--base-lightness-end)) / 11) * 1%));
-    color: #fff;
-    border-color: hsl(var(--base-hue), 70%, calc(var(--base-lightness-start) - (var(--semestre) - 1) * ((var(--base-lightness-start) - var(--base-lightness-end)) / 11) * 1% - 5%)); /* Borde un poco más oscuro que el fondo */
+    /* Colores base: un tono de verde agradable */
+    --base-hue: 140; /* Tono verde */
+    --base-saturation: 60%;
+    --base-lightness: 45%; /* Claridad media */
+
+    background-color: hsl(var(--base-hue), var(--base-saturation), var(--base-lightness));
+    border-color: hsl(var(--base-hue), var(--base-saturation), calc(var(--base-lightness) - 8%)); /* Borde un poco más oscuro */
 }
 
 .materia:hover {
@@ -125,14 +125,15 @@ header p {
 /* ESTILOS PARA MATERIAS COMPLETADAS */
 .materia.completada {
     /* Tonos de azul para completadas */
-    --completed-hue: 210; /* Tono azul */
-    --completed-lightness-start: 60%;
-    --completed-lightness-end: 30%;
-    background-color: hsl(var(--completed-hue), 70%, calc(var(--completed-lightness-start) - (var(--semestre) - 1) * ((var(--completed-lightness-start) - var(--completed-lightness-end)) / 11) * 1%));
-    border-color: hsl(var(--completed-hue), 70%, calc(var(--completed-lightness-start) - (var(--semestre) - 1) * ((var(--completed-lightness-start) - var(--completed-lightness-end)) / 11) * 1% - 5%));
+    --completed-hue: 220; /* Tono azul */
+    --completed-saturation: 70%;
+    --completed-lightness: 50%; /* Claridad media */
+
+    background-color: hsl(var(--completed-hue), var(--completed-saturation), var(--completed-lightness));
+    border-color: hsl(var(--completed-hue), var(--completed-saturation), calc(var(--completed-lightness) - 8%));
     text-decoration: none;
     opacity: 1;
-    cursor: pointer; /* Aún clicable para desmarcar */
+    cursor: pointer;
 }
 
 .materia.completada::after {
@@ -151,17 +152,17 @@ header p {
 
 /* ESTILOS PARA MATERIAS NO DISPONIBLES (prerrequisitos no cumplidos) */
 .materia.no-disponible {
-    background-color: #ccc; /* Gris claro para no disponibles */
-    color: #888; /* Texto más oscuro para contraste */
-    border-color: #bbb;
+    background-color: #e0e0e0; /* Gris claro para no disponibles */
+    color: #666; /* Texto más oscuro para contraste */
+    border-color: #d0d0d0;
     cursor: not-allowed;
-    opacity: 0.6; /* Ligeramente transparente */
+    opacity: 0.7; /* Ligeramente transparente */
     filter: grayscale(80%); /* Muy desaturado */
-    box-shadow: none; /* Eliminar sombra para que no parezca interactivo */
-    transform: none; /* Eliminar efecto hover */
+    box-shadow: none;
+    transform: none;
 }
 .materia.no-disponible:hover {
-    transform: none; /* Desactivar transformación al pasar el mouse */
+    transform: none;
     box-shadow: 0 3px 6px rgba(0,0,0,0.08); /* Mantener una sombra mínima */
 }
 
@@ -230,4 +231,7 @@ footer {
     .cuatrimestre {
         flex: 0 0 calc(100% - 20px); /* 1 columna */
     }
-    .
+    .materia {
+        width: 80%; /* Hacer las materias más anchas en pantallas pequeñas */
+    }
+}
