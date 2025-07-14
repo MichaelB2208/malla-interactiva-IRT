@@ -1,1 +1,128 @@
-
+[
+  {
+    "id": "HUM-111",
+    "nombre": "Orientación Académica e Institucional",
+    "creditos": 1,
+    "semestre": 1,
+    "prerequisitos": [],
+    "correquisitos": [],
+    "completada": false
+  },
+  {
+    "id": "HUM-113",
+    "nombre": "Lengua Española I",
+    "creditos": 4,
+    "semestre": 1,
+    "prerequisitos": [],
+    "correquisitos": [],
+    "completada": false
+  },
+  {
+    "id": "MAT-111",
+    "nombre": "Matemáticas Generales",
+    "creditos": 4,
+    "semestre": 1,
+    "prerequisitos": [],
+    "correquisitos": [],
+    "completada": false
+  },
+  {
+    "id": "ING-121",
+    "nombre": "Dibujo Técnico I",
+    "creditos": 3,
+    "semestre": 1,
+    "prerequisitos": [],
+    "correquisitos": [],
+    "completada": false
+  },
+  {
+    "id": "QUM-1110",
+    "nombre": "Química General",
+    "creditos": 3,
+    "semestre": 1,
+    "prerequisitos": [],
+    "correquisitos": [],
+    "completada": false
+  },
+  {
+    "id": "QUIM-1111",
+    "nombre": "Laboratorio Química General",
+    "creditos": 1,
+    "semestre": 1,
+    "prerequisitos": [],
+    "correquisitos": ["QUM-1110"],
+    "completada": false
+  },
+  {
+    "id": "HUM-114",
+    "nombre": "Realidad Social Dominicana y Latinoamericana",
+    "creditos": 3,
+    "semestre": 1,
+    "prerequisitos": [],
+    "correquisitos": [],
+    "completada": false
+  },
+  {
+    "id": "HUM-116",
+    "nombre": "Humanidades I",
+    "creditos": 2,
+    "semestre": 2,
+    "prerequisitos": ["HUM-111"],
+    "correquisitos": [],
+    "completada": false
+  },
+  {
+    "id": "HUM-117",
+    "nombre": "Lengua Española II",
+    "creditos": 4,
+    "semestre": 2,
+    "prerequisitos": ["HUM-113"],
+    "correquisitos": [],
+    "completada": false
+  },
+  {
+    "id": "MAT-112",
+    "nombre": "Cálculo I",
+    "creditos": 5,
+    "semestre": 2,
+    "prerequisitos": ["MAT-111"],
+    "correquisitos": [],
+    "completada": false
+  },
+  {
+    "id": "HUM-118",
+    "nombre": "Ecología",
+    "creditos": 2,
+    "semestre": 2,
+    "prerequisitos": [],
+    "correquisitos": [],
+    "completada": false
+  },
+  {
+    "id": "FIS-1110",
+    "nombre": "Física I",
+    "creditos": 3,
+    "semestre": 2,
+    "prerequisitos": ["MAT-111"],
+    "correquisitos": [],
+    "completada": false
+  },
+  {
+    "id": "FIS-1111",
+    "nombre": "Laboratorio Física I",
+    "creditos": 1,
+    "semestre": 2,
+    "prerequisitos": ["MAT-111"],
+    "correquisitos": ["FIS-1110"],
+    "completada": false
+  },
+  {
+    "id": "ING-122",
+    "nombre": "Dibujo Técnico II",
+    "creditos": 3,
+    "semestre": 2,
+    "prerequisitos": ["ING-121"],
+    "correquisitos": [],
+    "completada": false
+  }
+]
