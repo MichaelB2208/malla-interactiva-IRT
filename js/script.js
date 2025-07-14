@@ -104,32 +104,12 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-        // Verificar correquisitos (solo si no está ya completada, un correquisito se puede cursar al mismo tiempo)
-        if (materia.correquisitos && materia.correquisitos.length > 0 && !materia.completada) {
-            const correquisitosCumplidos = materia.correquisitos.every(correqId => {
-                const correqMateria = materias.find(m => m.id === correqId);
-                // Un correquisito se cumple si está completado O si NO está completado pero la materia actual tampoco lo está
-                // Es decir, ambos pueden ser seleccionados si ninguno de los dos está completado todavía
-                // Simplificación: Para que sea "disponible" si tiene correquisito, el correquisito no debe estar marcado como "no disponible" por sus propios prerrequisitos.
-                // Esta lógica puede ser compleja. Para este caso, solo verificaremos que los correquisitos no sean "prerrequisitos" de sí mismos.
-                // La implementación actual ya permite cursar ambos si los prerrequisitos se cumplen.
-                // Si quieres una validación más estricta de correquisitos que deben ser cursados "simultáneamente" o ya completados,
-                // necesitarías una lógica más avanzada que gestione un "estado de inscripción" no solo "completado".
-                // Por ahora, asumiremos que si sus prerrequisitos están OK, se puede seleccionar.
-                return correqMateria && (correqMateria.completada || !correqMateria.completada && !correqMateria.prerequisitos.some(p => { // Solo para evitar un bucle de correquisito-prerrequisito
-                    const pM = materias.find(x => x.id === p);
-                    return pM && !pM.completada;
-                }));
-            });
-            // Si el correquisito aún no está completado, pero es seleccionable, la materia es disponible.
-            // La lógica actual de "no-disponible" ya la maneja bien con los prerrequisitos.
-            // Para correquisitos, es más un aviso que un bloqueo.
-            // Para simplificar, si no hay prerequisitos que bloqueen, la marcamos como disponible.
-            // Si quieres que el correquisito sea un bloqueo similar a un prerrequisito, deberías modificar aquí.
-            return true; // Si llegamos aquí, los prerrequisitos están bien. Los correquisitos no bloquean la disponibilidad en este modelo.
-        }
-
-        return true; // Si no tiene prerrequisitos ni correquisitos, siempre disponible
+        // Para correquisitos, la lógica es más compleja y depende de si deben cursarse simultáneamente o ya completados.
+        // En este modelo, si los prerrequisitos se cumplen, la materia se considera "disponible" para poder seleccionarla.
+        // Los correquisitos son más informativos o para validación al momento de "inscribirse" en un sistema real,
+        // no tanto para bloquear la visualización en una malla interactiva simple como esta.
+        // Si necesitas una lógica de bloqueo estricta para correquisitos, házmelo saber.
+        return true; // Si no tiene prerrequisitos que bloqueen, o si los tiene y están completados
     }
 
 
