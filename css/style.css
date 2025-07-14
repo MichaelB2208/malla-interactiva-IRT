@@ -1,46 +1,50 @@
 body {
-  font-family: Arial, sans-serif;
-  background-color: #f9f9f9;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   margin: 0;
   padding: 0;
+  background: #f8f9fa;
 }
 
 .contenedor {
   max-width: 1200px;
-  margin: 0 auto;
-  padding: 20px;
+  margin: auto;
+  padding: 2rem;
 }
 
 h1 {
   text-align: center;
-  color: #2c3e50;
+  margin-bottom: 2rem;
+}
+
+.malla-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
 }
 
 .cuatrimestre {
-  margin-bottom: 40px;
+  flex: 0 0 calc(50% - 20px);
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  padding: 1rem;
 }
 
 .cuatrimestre h2 {
-  color: #34495e;
-  border-bottom: 2px solid #ccc;
-  padding-bottom: 5px;
-}
-
-.materias-grid {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
+  margin-top: 0;
+  text-align: center;
 }
 
 .materia {
-  background-color: var(--color-disponible, #dff0d8);
-  border: 1px solid #ccc;
-  border-left: 5px solid #27ae60;
-  padding: 10px;
-  width: 250px;
-  cursor: pointer;
+  background-color: hsl(140, 60%, 45%);
+  color: #fff;
+  padding: 0.75rem;
+  border-radius: 6px;
+  margin: 0.5rem 0;
   position: relative;
-  transition: transform 0.2s;
+  cursor: pointer;
+  transition: 0.3s ease;
 }
 
 .materia:hover {
@@ -48,29 +52,67 @@ h1 {
 }
 
 .materia.completada {
-  background-color: #d1ecf1;
-  border-left-color: #17a2b8;
+  background-color: hsl(220, 70%, 50%);
 }
 
 .materia.no-disponible {
-  background-color: #f8d7da;
-  border-left-color: #dc3545;
-  opacity: 0.6;
+  background-color: #ddd;
+  color: #666;
   cursor: not-allowed;
 }
 
-.materia h3 {
+.leyenda {
+  margin-bottom: 2rem;
+  background: #fff;
+  padding: 1rem;
+  border-radius: 6px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.leyenda h3 {
   margin-top: 0;
-  font-size: 18px;
 }
 
-.materia p {
-  margin: 4px 0;
-  font-size: 14px;
+.leyenda ul {
+  list-style: none;
+  padding: 0;
 }
 
-.prerequisitos-tooltip {
-  font-size: 12px;
-  color: #555;
-  margin-top: 8px;
+.leyenda li {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.cuadro {
+  width: 20px;
+  height: 20px;
+  display: inline-block;
+  border-radius: 3px;
+}
+
+.cuadro.completada {
+  background-color: hsl(220, 70%, 50%);
+}
+
+.cuadro.disponible {
+  background-color: hsl(140, 60%, 45%);
+}
+
+.cuadro.no-disponible {
+  background-color: #ccc;
+}
+
+#reiniciar {
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  border: none;
+  background-color: #c0392b;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+#reiniciar:hover {
+  background-color: #e74c3c;
 }
