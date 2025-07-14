@@ -1,90 +1,76 @@
 body {
   font-family: Arial, sans-serif;
-  margin: 20px;
-  background-color: #f7f9fb;
-  color: #333;
+  background-color: #f9f9f9;
+  margin: 0;
+  padding: 0;
+}
+
+.contenedor {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
 }
 
 h1 {
   text-align: center;
-  margin-bottom: 40px;
-  color: #003366;
-}
-
-#malla-curricular {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 30px;
+  color: #2c3e50;
 }
 
 .cuatrimestre {
-  background-color: #ffffff;
-  border-radius: 16px;
-  padding: 20px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  width: 320px;
+  margin-bottom: 40px;
 }
 
 .cuatrimestre h2 {
-  text-align: center;
-  margin-bottom: 15px;
-  color: #0055a5;
+  color: #34495e;
+  border-bottom: 2px solid #ccc;
+  padding-bottom: 5px;
 }
 
 .materias-grid {
   display: flex;
-  flex-direction: column;
-  gap: 12px;
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
 .materia {
-  border: 2px solid #cfd8dc;
-  border-left: 8px solid #90caf9;
-  background-color: #e3f2fd;
-  padding: 12px;
-  border-radius: 12px;
-  transition: transform 0.2s, box-shadow 0.2s;
+  background-color: var(--color-disponible, #dff0d8);
+  border: 1px solid #ccc;
+  border-left: 5px solid #27ae60;
+  padding: 10px;
+  width: 250px;
   cursor: pointer;
   position: relative;
+  transition: transform 0.2s;
 }
 
 .materia:hover {
-  transform: scale(1.015);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transform: scale(1.02);
 }
 
-.materia h3 {
-  margin: 0;
-  font-size: 1.1em;
-  color: #0d47a1;
-}
-
-.materia p {
-  margin: 4px 0;
-  font-size: 0.9em;
-}
-
-/* Colores según estado */
 .materia.completada {
-  background-color: #c8e6c9;
-  border-left-color: #43a047;
+  background-color: #d1ecf1;
+  border-left-color: #17a2b8;
 }
 
 .materia.no-disponible {
   background-color: #f8d7da;
-  border-left-color: #c62828;
-  opacity: 0.8;
+  border-left-color: #dc3545;
+  opacity: 0.6;
   cursor: not-allowed;
 }
 
-/* Tooltip de prerrequisitos/correquisitos */
+.materia h3 {
+  margin-top: 0;
+  font-size: 18px;
+}
+
+.materia p {
+  margin: 4px 0;
+  font-size: 14px;
+}
+
 .prerequisitos-tooltip {
+  font-size: 12px;
+  color: #555;
   margin-top: 8px;
-  font-size: 0.8em;
-  background-color: #ffffff;
-  border: 1px dashed #90a4ae;
-  padding: 6px;
-  border-radius: 8px;
-  color: #333;
 }
